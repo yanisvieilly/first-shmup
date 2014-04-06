@@ -1,5 +1,5 @@
 class Ship
-  SPEED = 3
+  SPEED = 4
   WIDTH = 32
   HEIGHT = 32
 
