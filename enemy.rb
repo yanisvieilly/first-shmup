@@ -15,7 +15,7 @@ class Enemy
   end
 
   def inactive?
-    @y > 640
+    @y > @window.height
   end
 
   def update

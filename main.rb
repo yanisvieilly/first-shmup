@@ -21,6 +21,11 @@ class GameWindow < Gosu::Window
     @bullets = []
   end
 
+  def clean
+    @enemies.reject!(&:inactive?)
+    @bullets.reject!(&:inactive?)
+  end
+
   def update
     @ship.update
 
@@ -28,10 +33,10 @@ class GameWindow < Gosu::Window
       @enemies.push Enemy.new(self)
     end
     @enemies.each(&:update)
-    @enemies.reject!(&:inactive?)
 
     @bullets.each(&:update)
-    @bullets.reject!(&:inactive?)
+
+    clean
   end
 
   def draw

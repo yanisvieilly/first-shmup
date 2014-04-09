@@ -15,7 +15,7 @@ class Ship
   end
 
   def move_down
-    @y += SPEED unless @y >= 640 - HEIGHT
+    @y += SPEED unless @y >= @window.height - HEIGHT
   end
 
   def move_left
@@ -23,7 +23,7 @@ class Ship
   end
 
   def move_right
-    @x += SPEED unless @x >= 480 - WIDTH
+    @x += SPEED unless @x >= @window.width - WIDTH
   end
 
   def update
