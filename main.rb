@@ -1,37 +1,44 @@
 require 'gosu'
 require './ship'
 require './enemy'
+require './bullet'
 
 class GameWindow < Gosu::Window
   WIDTH = 480
   HEIGHT = 640
+
+  attr_reader :enemies, :bullets
 
   def initialize
     super WIDTH, HEIGHT, false
     self.caption = 'First Shmup'
 
     @background = Gosu::Image.new(self, 'assets/background.png', false)
+
     @ship = Ship.new(self)
+
     @enemies = []
+    @bullets = []
   end
 
   def update
-    @ship.move_up if button_down? Gosu::KbUp
-    @ship.move_down if button_down? Gosu::KbDown
-    @ship.move_left if button_down? Gosu::KbLeft
-    @ship.move_right if button_down? Gosu::KbRight
+    @ship.update
 
     if rand(100) == 0
       @enemies.push Enemy.new(self)
     end
-    @enemies.each { |enemy| enemy.move }
-    @enemies.reject! { |enemy| enemy.y > HEIGHT }
+    @enemies.each(&:update)
+    @enemies.reject!(&:inactive?)
+
+    @bullets.each(&:update)
+    @bullets.reject!(&:inactive?)
   end
 
   def draw
     @background.draw(0, 0, 0)
     @ship.draw
-    @enemies.each { |enemy| enemy.draw }
+    @enemies.each(&:draw)
+    @bullets.each(&:draw)
   end
 
   def button_down(id)
@@ -39,5 +46,4 @@ class GameWindow < Gosu::Window
   end
 end
 
-window = GameWindow.new
-window.show
+GameWindow.new.show

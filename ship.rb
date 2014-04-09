@@ -4,9 +4,10 @@ class Ship
   HEIGHT = 32
 
   def initialize(window)
-    @image = Gosu::Image.new(window, 'assets/ships.png', false, 80, 320, WIDTH, HEIGHT)
-    @x = window.width / 2 - WIDTH / 2
-    @y = window.height - HEIGHT - 18
+    @window = window
+    @image = Gosu::Image.new(@window, 'assets/ships.png', false, 80, 320, WIDTH, HEIGHT)
+    @x = @window.width / 2 - WIDTH / 2
+    @y = @window.height - HEIGHT - 18
   end
 
   def move_up
@@ -23,6 +24,13 @@ class Ship
 
   def move_right
     @x += SPEED unless @x >= 480 - WIDTH
+  end
+
+  def update
+    move_up if @window.button_down? Gosu::KbUp
+    move_down if @window.button_down? Gosu::KbDown
+    move_left if @window.button_down? Gosu::KbLeft
+    move_right if @window.button_down? Gosu::KbRight
   end
 
   def draw
